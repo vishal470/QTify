@@ -15,7 +15,8 @@ const Controls = ({ data, swiper }) => {
   return null;
 };
 
-function Carousel({ data, renderComponent }) {
+function Carousel({ data, renderComponent, component }) {
+  const render = renderComponent || component || (() => null);
   const [swiper, setSwiper] = useState(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
@@ -46,7 +47,7 @@ function Carousel({ data, renderComponent }) {
       >
         <Controls data={data} swiper={swiper} />
         {data.map((ele, idx) => (
-          <SwiperSlide key={idx}>{renderComponent(ele)}</SwiperSlide>
+          <SwiperSlide key={idx}>{render(ele)}</SwiperSlide>
         ))}
       </Swiper>
       <LeftArrowButton swiper={swiper} isBeginning={isBeginning} />
