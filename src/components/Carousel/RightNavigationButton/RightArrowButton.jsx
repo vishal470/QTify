@@ -1,27 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "./RightArrowButton.module.css";
 import { ReactComponent as RightArrow } from "../../../assets/CarouselButtons/RightButton.svg";
-import { useSwiper } from "swiper/react";
 
-function RightArrowButton() {
-  const swiper = useSwiper();
-  const [isEnd, setIsEnd] = useState(swiper.isEnd);
-
-  useEffect(() => {
-    const handleSlideChange = () => {
-      setIsEnd(swiper.isEnd);
-    };
-
-    swiper.on("slideChange", handleSlideChange);
-    return () => {
-      swiper.off("slideChange", handleSlideChange);
-    };
-  }, [swiper]);
+function RightArrowButton({ swiper, isEnd }) {
+  if (!swiper || isEnd) {
+    return null;
+  }
 
   return (
-    <div className={styles.btn}>
-      {!isEnd && <RightArrow onClick={() => swiper.slideNext()} />}
-    </div>
+    <button
+      type="button"
+      className={styles.btn}
+      aria-label="Next slide"
+      onClick={() => swiper.slideNext()}
+    >
+      <RightArrow />
+    </button>
   );
 }
 

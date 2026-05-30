@@ -1,23 +1,42 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Carousel.module.css";
 import "swiper/css";
 import { Navigation } from "swiper/modules";
-import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import LeftArrowButton from "./LeftNavigationButton/LeftArrowButton";
 import RightArrowButton from "./RightNavigationButton/RightArrowButton";
 
-const Controls = ({ data }) => {
-  const swiper = useSwiper();
+const Controls = ({ data, swiper }) => {
   useEffect(() => {
-    swiper.slideTo(0);
+    if (swiper) {
+      swiper.slideTo(0);
+    }
   }, [data, swiper]);
-  return <></>;
+  return null;
 };
 
 function Carousel({ data, renderComponent }) {
+  const [swiper, setSwiper] = useState(null);
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
+
+  const handleSlideChange = (swiperInstance) => {
+    setIsBeginning(swiperInstance.isBeginning);
+    setIsEnd(swiperInstance.isEnd);
+  };
+
+  useEffect(() => {
+    if (!swiper) return;
+
+    setIsBeginning(swiper.isBeginning);
+    setIsEnd(swiper.isEnd);
+  }, [swiper]);
+
   return (
     <div className={styles.wrapper}>
       <Swiper
+        onSwiper={setSwiper}
+        onSlideChange={handleSlideChange}
         initialSlide={0}
         modules={[Navigation]}
         spaceBetween={10}
@@ -25,13 +44,13 @@ function Carousel({ data, renderComponent }) {
         style={{ padding: "0px 20px" }}
         allowTouchMove
       >
-        <Controls data={data} />
-        <RightArrowButton />
-        <LeftArrowButton />
-        {data.map((ele) => (
-          <SwiperSlide>{renderComponent(ele)}</SwiperSlide>
+        <Controls data={data} swiper={swiper} />
+        {data.map((ele, idx) => (
+          <SwiperSlide key={idx}>{renderComponent(ele)}</SwiperSlide>
         ))}
       </Swiper>
+      <LeftArrowButton swiper={swiper} isBeginning={isBeginning} />
+      <RightArrowButton swiper={swiper} isEnd={isEnd} />
     </div>
   );
 }

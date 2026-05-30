@@ -6,7 +6,7 @@ import Carousel from "../Carousel/Carousel";
 import Filters from "../Filters/FiltersTab";
 
 function Section({ title, data, filterSource, type }) {
-  const [carouselToggle, setCarouselToggle] = useState(true);
+  const [carouselToggle, setCarouselToggle] = useState(false);
   const [filters, setFilters] = useState([{ key: "all", label: "All" }]);
   const [selectedFilterIndex, setSelectedFilterIndex] = useState(0);
 
