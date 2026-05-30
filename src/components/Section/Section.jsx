@@ -32,9 +32,13 @@ function Section({ title, data, filterSource, type }) {
       <div className={styles.header}>
         <h3>{title}</h3>
         {!showFilters && (
-          <h4 className={styles.toggleText} onClick={handleToggle}>
+          <button
+            type="button"
+            className={styles.toggleText}
+            onClick={handleToggle}
+          >
             {!carouselToggle ? "Collapse All" : "Show All"}
-          </h4>
+          </button>
         )}
       </div>
       {showFilters && (
