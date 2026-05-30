@@ -36,8 +36,10 @@ function Section({ title, data, filterSource, type }) {
             type="button"
             className={styles.toggleText}
             onClick={handleToggle}
+            aria-label={carouselToggle ? "Show all" : "Collapse"}
+            data-testid="toggle-carousel"
           >
-            {!carouselToggle ? "Collapse All" : "Show All"}
+            {!carouselToggle ? "Collapse" : "Show all"}
           </button>
         )}
       </div>
