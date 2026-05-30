@@ -6,7 +6,7 @@ import Carousel from "../Carousel/Carousel";
 import Filters from "../Filters/FiltersTab";
 
 function Section({ title, data, filterSource, type }) {
-  const [carouselToggle, setCarouselToggle] = useState(false);
+  const [carouselToggle, setCarouselToggle] = useState(true);
   const [filters, setFilters] = useState([{ key: "all", label: "All" }]);
   const [selectedFilterIndex, setSelectedFilterIndex] = useState(0);
 
@@ -14,13 +14,13 @@ function Section({ title, data, filterSource, type }) {
     setCarouselToggle((prevState) => !prevState);
   };
   useEffect(() => {
-    if (!filterSource) return;
-
-    filterSource().then((response) => {
-      const { data } = response;
-      setFilters((prevFilters) => [...prevFilters, ...data]);
-    });
-  }, [filterSource]);
+    if (filterSource) {
+      filterSource().then((response) => {
+        const { data } = response;
+        setFilters([...filters, ...data]);
+      });
+    }
+  }, []);
   const showFilters = filters.length > 1;
   const cardsToRender = data.filter((card) =>
     showFilters && selectedFilterIndex !== 0
@@ -32,15 +32,9 @@ function Section({ title, data, filterSource, type }) {
       <div className={styles.header}>
         <h3>{title}</h3>
         {!showFilters && (
-          <button
-            type="button"
-            className={styles.toggleText}
-            onClick={handleToggle}
-            aria-label={carouselToggle ? "Show all" : "Collapse"}
-            data-testid="toggle-carousel"
-          >
-            {!carouselToggle ? "Collapse" : "Show all"}
-          </button>
+          <h4 className={styles.toggleText} onClick={handleToggle}>
+            {!carouselToggle ? "Collapse All" : "Show All"}
+          </h4>
         )}
       </div>
       {showFilters && (
