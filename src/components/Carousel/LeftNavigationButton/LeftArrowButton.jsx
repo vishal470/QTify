@@ -8,10 +8,15 @@ function LeftArrowButton() {
   const [isBeginning, setIsBeginning] = useState(swiper.isBeginning);
 
   useEffect(() => {
-    swiper.on("slideChange", function () {
+    const handleSlideChange = () => {
       setIsBeginning(swiper.isBeginning);
-    });
-  }, []);
+    };
+
+    swiper.on("slideChange", handleSlideChange);
+    return () => {
+      swiper.off("slideChange", handleSlideChange);
+    };
+  }, [swiper]);
 
   return (
     <div className={styles.btn}>

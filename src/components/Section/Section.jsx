@@ -14,13 +14,13 @@ function Section({ title, data, filterSource, type }) {
     setCarouselToggle((prevState) => !prevState);
   };
   useEffect(() => {
-    if (filterSource) {
-      filterSource().then((response) => {
-        const { data } = response;
-        setFilters([...filters, ...data]);
-      });
-    }
-  }, []);
+    if (!filterSource) return;
+
+    filterSource().then((response) => {
+      const { data } = response;
+      setFilters((prevFilters) => [...prevFilters, ...data]);
+    });
+  }, [filterSource]);
   const showFilters = filters.length > 1;
   const cardsToRender = data.filter((card) =>
     showFilters && selectedFilterIndex !== 0

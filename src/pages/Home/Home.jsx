@@ -5,7 +5,7 @@ import styles from "./Home.module.css";
 import Hero from "../../components/Hero/Hero";
 import { fetchFilters } from "../../Api/Api";
 
-function Home({}) {
+function Home() {
   const { data } = useOutletContext();
   const { topAlbums, newAlbums, songs } = data;
   return (

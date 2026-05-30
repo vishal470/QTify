@@ -8,10 +8,15 @@ function RightArrowButton() {
   const [isEnd, setIsEnd] = useState(swiper.isEnd);
 
   useEffect(() => {
-    swiper.on("slideChange", function () {
+    const handleSlideChange = () => {
       setIsEnd(swiper.isEnd);
-    });
-  }, []);
+    };
+
+    swiper.on("slideChange", handleSlideChange);
+    return () => {
+      swiper.off("slideChange", handleSlideChange);
+    };
+  }, [swiper]);
 
   return (
     <div className={styles.btn}>

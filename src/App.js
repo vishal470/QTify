@@ -6,7 +6,6 @@ import { Outlet } from "react-router-dom";
 import { fetchNewAlbums, fetchSongs, fetchTopAlbums } from "./Api/Api";
 
 function App() {
-  const [searchData, useSearchData] = useState();
   const [data, setData] = useState({});
 
   const generateData = (key, source) => {
